@@ -1,25 +1,32 @@
-// src/App.js
+// frontend/src/App.jsx
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import PaymentForm from './components/PaymentForm';
 
-// Load Stripe with your publishable key from environment variables
+import Register from './pages/Register';
+import Login from './pages/Login';
+import Pay from './pages/Pay';
+import DisplayInfo from './pages/DisplayInfo';
+import SecondPayment from './pages/SecondPayment';
+import ChangeCard from './pages/ChangeCard';
+
 const stripePromise = loadStripe(import.meta.env.VITE_APP_STRIPE_PUBLISHABLE_KEY);
 
 function App() {
-  // In a real app, you would get the customerId from your auth/session logic.
-  const customerId = 'cus_example123'; 
-  console.log('Stripe key:', import.meta.env.VITE_APP_STRIPE_PUBLISHABLE_KEY);
-
-
   return (
-    <div className="App">
-      <h1>Stripe Payment Setup</h1>
+    <Router>
       <Elements stripe={stripePromise}>
-        <PaymentForm customerId={customerId} />
+        <Routes>
+          <Route path="/" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/pay" element={<Pay />} />
+          <Route path="/display-info" element={<DisplayInfo />} />
+          <Route path="/second-payment" element={<SecondPayment />} />
+          <Route path="/change-card" element={<ChangeCard />} />
+        </Routes>
       </Elements>
-    </div>
+    </Router>
   );
 }
 
